@@ -1,4 +1,4 @@
-#def JDK_HOME
+def JDK_HOME
 def PROPS
 def GIT_URL
 def CI_TOOLS_BRANCH
