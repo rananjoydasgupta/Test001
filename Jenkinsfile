@@ -138,8 +138,8 @@ def createBuild(sagHome, abeHome, buildVersion, ciWorkspace) {
          -Denable.archive=true"
 	
 	/*dir ("$ciWorkspace/build/is") {
-       	sh "chmod 777 * "*/
-    } 	 
+       	sh "chmod 777 * "
+    }*/ 	 
 		 
 }
 
