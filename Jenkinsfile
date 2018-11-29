@@ -49,9 +49,9 @@ pipeline {
 						JENKINS_WS=PROPS['JENKINS_WS']
 						IS_REPO_HOME=PROPS['IS_REPO_HOME']
 						IS_BRANCH=PROPS['IS_BRANCH']
-						//BUILD_VERSION=PROPS['BUILD_VERSION']
-						//SAG_HOME=PROPS['SAG_HOME']
-						//ABE_HOME=PROPS['ABE_HOME']
+						BUILD_VERSION=PROPS['BUILD_VERSION']
+						SAG_HOME=PROPS['SAG_HOME']
+						ABE_HOME=PROPS['ABE_HOME']
 						//DEPLOYER_HOME=PROPS['DEPLOYER_HOME']
 						//DEPLOYER_HOST=PROPS['DEPLOYER_HOST']
 						//DEPLOYER_PORT=PROPS['DEPLOYER_PORT']
@@ -88,7 +88,7 @@ pipeline {
 			}
 		
 		
-		/*stage ('Create Build') {				
+		stage ('Create Build') {				
 			steps {
 					print " ----- Create Build ----- "
 				createBuild("${SAG_HOME}","${ABE_HOME}","${BUILD_VERSION}","${JENKINS_WS}")
@@ -97,7 +97,7 @@ pipeline {
 		}
 
 
-		stage ('Deploy Build') {				
+		/*stage ('Deploy Build') {				
 			steps {
 					print " ----- Create Project ----- "
 				createProject("${SAG_HOME}", "${ABE_HOME}", "${SAG_HOME}/${DEPLOYER_HOME}", "${BUILD_VERSION}", "${JENKINS_WS}/source/utils/ProjectAutomatorIS.xml", "${JENKINS_WS}/source/utils/ProjectAutomatorIS.tpl", "${DEPLOYER_HOST}", "${DEPLOYER_PORT}", "${DEPLOYER_USER}", "${DEPLOYER_PWD}", "${PROJECT_NAME_IS}", "${DEP_SET_IS}", "${DEP_MAP_IS}", "${DEP_CAN_IS}", "${REPO_NAME}", "${JENKINS_WS}/build/is", "${TARGET_ALIAS_IS}", "${TARGET_HOST_IS}", "${TARGET_PORT_IS}", "${TARGET_USER_IS}", "${TARGET_PWD_IS}", "${TARGET_VERSION_IS}","${PKG_PREFIX}")
@@ -128,20 +128,19 @@ def gitCheckout(branchDir, branchName, credentialsId, gitRepoURL) {
 
 
 def createBuild(sagHome, abeHome, buildVersion, ciWorkspace) {
-	sh "$abeHome/bin/build.sh\
+	bat "$abeHome\\bin\\build.bat\
          -Dsag.install.dir=$sagHome\
-         -Dbuild.source.dir=$ciWorkspace/source/is\
-         -Dbuild.output.dir=$ciWorkspace/build/is\
+         -Dbuild.source.dir=$ciWorkspace\\src\\is\
+         -Dbuild.output.dir=$ciWorkspace\\build\\is\
          -Dbuild.version=$buildVersion\
-         -Dbuild.log.fileName=$ciWorkspace/logs/log_" + "$buildVersion" + ".txt\
+         -Dbuild.log.fileName=$ciWorkspace\\logs\\log_" + "$buildVersion" + ".txt\
          -Denable.build.IS=true\
          -Denable.archive=true"
 	
 	/*dir ("$ciWorkspace/build/is") {
        	sh "chmod 777 * "
     }*/ 	 
-		 
-}
+ }
 
 def createProject(sagHome, abeHome, deployerHome, buildVersion, projectAutomatorFile, projectAutomatorTemplate, deployerHost, deployerPort, deployerUser, deployerPwd, projName, depSetName, depMapName, depCanName, deployerRepoName, deployerRepoPath, serverAlias, serverHost, serverPort, user, pwd, version, assetPrefix) {
 
